@@ -1,11 +1,25 @@
 version: 0.2
+
 phases:
   install:
     commands:
-      - echo "Nothing to install"
+      - echo "Install phase - nothing to install for static site"
+
+  pre_build:
+    commands:
+      - echo "Pre-build phase - starting"
+
   build:
     commands:
-      - echo "Building static site"
+      - echo "Build phase - no build needed for static site"
+
+  post_build:
+    commands:
+      - echo "Post-build phase - creating CloudFront invalidation"
+      - aws cloudfront create-invalidation --distribution-id E1PDDXSXKZD93B --paths "/*"
+      - echo "Invalidation submitted"
+
 artifacts:
   files:
     - '**/*'
+  base-directory: .
